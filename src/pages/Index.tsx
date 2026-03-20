@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
-import { Trophy, Users, Dumbbell, Star } from "lucide-react";
-import heroImage from "@/assets/hero-boxing-gym.jpg";
+import { useState, useEffect, useCallback } from "react";
+import { Trophy, Users, Dumbbell, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import heroSlide1 from "@/assets/hero-slide-1.jpg";
+import heroSlide2 from "@/assets/hero-slide-2.jpg";
 import boxingTraining from "@/assets/boxing-training.jpg";
 import youthBoxing from "@/assets/youth-boxing.jpg";
 import womenBoxing from "@/assets/women-boxing.jpg";
@@ -10,6 +12,70 @@ import jiujitsu from "@/assets/jiujitsu.jpg";
 import boxingEvent from "@/assets/boxing-event.jpg";
 import ServiceCard from "@/components/ServiceCard";
 import logo from "@/assets/cbc-logo.png";
+
+const heroSlides = [
+  { image: heroSlide1, subtitle: "Chicago's Information Source for Serious Fight Training Gyms" },
+  { image: heroSlide2, subtitle: "Chicago's Leading Producer of Boxing Fight Night Events" },
+];
+
+const HeroSlideshow = () => {
+  const [current, setCurrent] = useState(0);
+  const next = useCallback(() => setCurrent((c) => (c + 1) % heroSlides.length), []);
+  const prev = useCallback(() => setCurrent((c) => (c - 1 + heroSlides.length) % heroSlides.length), []);
+
+  useEffect(() => {
+    const timer = setInterval(next, 6000);
+    return () => clearInterval(timer);
+  }, [next]);
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {heroSlides.map((slide, i) => (
+        <img
+          key={i}
+          src={slide.image}
+          alt=""
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${i === current ? "opacity-100" : "opacity-0"}`}
+          loading={i === 0 ? "eager" : "lazy"}
+        />
+      ))}
+      <div className="absolute inset-0 bg-background/60" />
+      <div className="relative z-10 container-tight text-center">
+        <img src={logo} alt="Chicago Boxing Club" className="w-28 h-28 mx-auto mb-8 drop-shadow-2xl" />
+        <p className="text-sm md:text-base font-bold uppercase tracking-[0.3em] text-secondary mb-4">
+          Est. Chicago, IL
+        </p>
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground mb-6 leading-[1.1]">
+          Chicago Boxing Club
+        </h1>
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed transition-opacity duration-700" key={current}>
+          {heroSlides[current].subtitle}
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link to="/boxingclasses.html" className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded font-bold text-sm tracking-wide hover:bg-secondary transition-colors">
+            Find a Fight Gym
+          </Link>
+          <Link to="/goldglovesfightnights.html" className="inline-block border-2 border-foreground/20 text-foreground px-8 py-4 rounded font-bold text-sm tracking-wide hover:border-secondary hover:text-secondary transition-colors">
+            Boxing Fight Nights
+          </Link>
+        </div>
+      </div>
+      {/* Navigation arrows */}
+      <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background/40 hover:bg-background/60 flex items-center justify-center transition-colors" aria-label="Previous slide">
+        <ChevronLeft className="w-5 h-5 text-foreground" />
+      </button>
+      <button onClick={next} className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-background/40 hover:bg-background/60 flex items-center justify-center transition-colors" aria-label="Next slide">
+        <ChevronRight className="w-5 h-5 text-foreground" />
+      </button>
+      {/* Dots */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        {heroSlides.map((_, i) => (
+          <button key={i} onClick={() => setCurrent(i)} className={`w-2.5 h-2.5 rounded-full transition-colors ${i === current ? "bg-secondary" : "bg-foreground/30"}`} aria-label={`Go to slide ${i + 1}`} />
+        ))}
+      </div>
+    </section>
+  );
+};
 
 const services = [
   { title: "Boxing Classes", description: "Boxing classes and lessons for every skill level — from beginners to professional fighters.", image: boxingTraining, link: "/boxingclasses.html" },
@@ -29,37 +95,7 @@ const trustSignals = [
 
 const Index = () => (
   <>
-    {/* Hero */}
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <img src={heroImage} alt="" className="absolute inset-0 w-full h-full object-cover" loading="eager" />
-      <div className="absolute inset-0 hero-overlay" />
-      <div className="relative z-10 container-tight text-center">
-        <img src={logo} alt="Chicago Boxing Club" className="w-28 h-28 mx-auto mb-8 drop-shadow-2xl" />
-        <p className="text-sm md:text-base font-bold uppercase tracking-[0.3em] text-secondary mb-4">
-          Est. Chicago, IL
-        </p>
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground mb-6 leading-[1.1]">
-          Chicago Boxing Club
-        </h1>
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-          Chicago's information source for serious fight training gyms — boxing, muay thai, jiu-jitsu, wrestling and MMA.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            to="/boxingclasses.html"
-            className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded font-bold text-sm tracking-wide hover:bg-secondary transition-colors"
-          >
-            Find a Fight Gym
-          </Link>
-          <Link
-            to="/goldglovesfightnights.html"
-            className="inline-block border-2 border-foreground/20 text-foreground px-8 py-4 rounded font-bold text-sm tracking-wide hover:border-secondary hover:text-secondary transition-colors"
-          >
-            Boxing Fight Nights
-          </Link>
-        </div>
-      </div>
-    </section>
+    <HeroSlideshow />
 
     {/* Trust Signals */}
     <section className="bg-section-alt section-padding">
