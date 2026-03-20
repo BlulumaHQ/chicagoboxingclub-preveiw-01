@@ -73,9 +73,12 @@ const HeroSlideshow = () => {
           <button key={i} onClick={() => setCurrent(i)} className={`w-2.5 h-2.5 rounded-full transition-colors ${i === current ? "bg-secondary" : "bg-foreground/30"}`} aria-label={`Go to slide ${i + 1}`} />
         ))}
       </div>
-    </section>
   );
 };
+
+const Index = () => (
+  <>
+    <HeroSlideshow />
 
     {/* Trust Signals */}
     <section className="bg-section-alt section-padding">
