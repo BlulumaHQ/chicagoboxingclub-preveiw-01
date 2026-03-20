@@ -77,6 +77,22 @@ const HeroSlideshow = () => {
   );
 };
 
+const services = [
+  { title: "Boxing Classes", description: "Boxing classes and lessons for every skill level — from beginners to professional fighters.", image: boxingTraining, link: "/boxingclasses.html" },
+  { title: "Youth Boxing", description: "Develop discipline, confidence and fitness through youth boxing training programs.", image: youthBoxing, link: "/youthboxing.html" },
+  { title: "Women's Boxing", description: "Boxing 101, kickboxing and cardio boxing classes designed for women of all fitness levels.", image: womenBoxing, link: "/boxingclassesforwomen.html" },
+  { title: "Muay Thai", description: "Authentic Muay Thai classes and lessons for striking and self-defense.", image: muayThai, link: "/muaythai.html" },
+  { title: "Wrestling", description: "Wrestling classes focused on takedowns, control and competitive grappling.", image: wrestling, link: "/wrestlingclasses.html" },
+  { title: "Jiu-Jitsu & MMA", description: "Jiu-Jitsu and mixed martial arts training for all experience levels.", image: jiujitsu, link: "/jiujitsu.html" },
+];
+
+const trustSignals = [
+  { icon: Trophy, title: "4x Gold Glove Champions", description: "Winner of 2009–2012 Chicago Gold Glove Tournament Team Championships" },
+  { icon: Star, title: "Olympic-Level Training", description: "Trained Olympic Trials competitor Kristin Gearhart" },
+  { icon: Users, title: "Chicago's Leading Producer", description: "Chicago's leading producer of Boxing Fight Night events" },
+  { icon: Dumbbell, title: "All Skill Levels", description: "From boxing beginners to professional fighters and amateur boxers" },
+];
+
 const Index = () => (
   <>
     <HeroSlideshow />
